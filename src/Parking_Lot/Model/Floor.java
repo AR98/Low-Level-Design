@@ -25,7 +25,7 @@ public class Floor {
 
     public ParkingSpot findAvailableSpot(VehicleType vehicleType) {
         for (ParkingSpot spot : spots.values()) {
-            if (spot.getType() == vehicleType && !spot.isOccupied()) {
+            if (spot.reserve(vehicleType)) {
                 return spot;
             }
         }

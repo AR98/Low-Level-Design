@@ -36,9 +36,7 @@ public class ParkingLotService {
         for(Floor f: floors){
             ParkingSpot spot = f.findAvailableSpot(v.getType());
             if(spot!=null) {
-                spot.reserve();
                 return new Ticket(spot, v, f.getLevel());
-
             }
         }
         System.out.println("No available spots for " + v.getType());
