@@ -1,17 +1,14 @@
 package Parking_Lot.Model;
+
 import Parking_Lot.Model.Enum.VehicleType;
 
-public class Vehicle {
+public abstract class Vehicle {
     private String licenceNumber;
-    private  VehicleType type;
+    private VehicleType type;
 
     public Vehicle(String licenceNumber, VehicleType type){
-        this.licenceNumber = licenceNumber;
-        this.type = type;
-    }
-
-    public String getLicenceNumber() {
-        return licenceNumber;
+            this.licenceNumber = licenceNumber;
+            this.type = type;
     }
 
     public VehicleType getType() {

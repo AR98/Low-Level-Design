@@ -1,4 +1,9 @@
 package Parking_Lot.Model;
 
-public class Truck {
+import Parking_Lot.Model.Enum.VehicleType;
+
+public class Truck extends  Vehicle{
+    public Truck(String licenceNumber){
+        super(licenceNumber, VehicleType.TRUCK);
+    }
 }

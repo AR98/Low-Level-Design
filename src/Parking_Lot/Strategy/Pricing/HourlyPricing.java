@@ -1,4 +1,4 @@
-package Parking_Lot.Strategy.Pricing.Pricing;
+package Parking_Lot.Strategy.Pricing;
 
 import Parking_Lot.Model.Enum.VehicleType;
 

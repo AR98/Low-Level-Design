@@ -1,18 +1,27 @@
 package Parking_Lot.Model;
 
 import Parking_Lot.Model.Enum.SpotType;
+import Parking_Lot.Model.Enum.VehicleType;
 
 public class ParkingSpot {
-    private final SpotType type;
+    private final VehicleType type;
     private final int id;
-    private boolean isAvailable = false;
+    private boolean occupied = false;
 
-    ParkingSpot(int id, SpotType type){
+    public ParkingSpot(int id, VehicleType type){
         this.type = type;
         this.id = id;
     }
 
-    public SpotType getType() {
+    public void vacate() {
+        occupied = false;
+    }
+
+    public boolean isOccupied() {
+        return occupied;
+    }
+
+    public VehicleType getType() {
         return type;
     }
 
@@ -20,11 +29,7 @@ public class ParkingSpot {
         return id;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean status){
-        this.isAvailable = status;
+    public void reserve(){
+        occupied = true;
     }
 }
