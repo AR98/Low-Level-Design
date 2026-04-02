@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Show {
- Movie movie;
- Screen screen;
- LocalDateTime startTime, endTime;
- Map<String, ShowSeat> showSeats = new HashMap<>();
- public Show(Movie movie, LocalDateTime start, PricingStrategy pricing){
+ public Movie movie;
+ public Screen screen;
+ public LocalDateTime startTime, endTime;
+ public Map<String, ShowSeat> showSeats = new HashMap<>();
+ public Show(Movie movie, Screen screen, LocalDateTime start, PricingStrategy pricing){
      this.movie = movie;
      this.screen = screen;
      this.startTime = start;

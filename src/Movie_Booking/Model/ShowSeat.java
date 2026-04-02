@@ -23,6 +23,10 @@ public class ShowSeat {
         this.status = status;
     }
 
+    public SeatStatus getStatus() {
+        return status;
+    }
+
     public double getPrice() {
         return price;
     }
