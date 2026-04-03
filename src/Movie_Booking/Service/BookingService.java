@@ -36,21 +36,31 @@ public class BookingService {
                 return;
             }
 
-            if(locked.stream().anyMatch(ss-> ss.getStatus()!= SeatStatus.AVAILABLE)){
-                System.out.println("Failed: Seats already booked.");
-                return;
-            }
+            // 2. Check Business Availability (Fix: includes the 8-min expiry check)
+            if (locked.stream().allMatch(ShowSeat::isActuallyAvailable)) {
 
-            locked.forEach(s -> s.setStatus(SeatStatus.LOCKED));
-            double total = locked.stream().mapToDouble(ss-> ss.getPrice()).sum();
-            PaymentStrategy payment = PaymentFactory.getPaymentMethod(paymentType);
-            if(payment.process(total)){
-                locked.forEach(s -> s.setStatus(SeatStatus.BOOKED));
-                System.out.println("Confirmed: " + show.movie.title + " | Total: ₹" + total);
-            }else{
-                locked.forEach(s-> s.setStatus(SeatStatus.AVAILABLE));
+                // 3. Set the 8-minute hold
+                locked.forEach(s -> s.reserve(8));
+                double total = locked.stream().mapToDouble(ShowSeat::getPrice).sum();
+
+                // 4. Process Payment
+                PaymentStrategy payment = PaymentFactory.getPaymentMethod(paymentType);
+                if (payment.process(total)) {
+                    locked.forEach(ShowSeat::confirm);
+                    System.out.println("Success! Total: ₹" + total);
+                } else {
+                    // If payment fails, release the seats immediately
+                    locked.forEach(ShowSeat::release);
+                    System.out.println("Payment Failed. Seats released.");
+                }
+            } else {
+                System.out.println("Failed: Some seats are currently held by others.");
             }
-        }finally {
+        } catch (Exception e) {
+            System.out.println("System Error: " + e.getMessage());
+        } finally {
+            // 5. CRITICAL FIX: Release thread locks so other users can try.
+            // This happens even if payment is still "pending" in the user's brain.
             locked.forEach(ShowSeat::unLock);
         }
     }
